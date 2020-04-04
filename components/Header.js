@@ -1,7 +1,20 @@
 import styled from 'styled-components';
+import Link from 'next/link';
+import Router from 'next/router';
+import NProgress from 'nprogress';
+
+// Router events to listen for to display NProgress feedback to user
+Router.onRouteChangeStart = () => {
+  NProgress.start();
+};
+Router.onRouteChangeComplete = () => {
+  NProgress.done();
+};
+Router.onRouteChangeError = () => {
+  NProgress.done();
+};
 
 import Nav from './Nav';
-import Link from 'next/link';
 
 const Logo = styled.h1`
   font-size: 4rem;
