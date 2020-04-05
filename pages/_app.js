@@ -5,7 +5,7 @@ import withData from '../lib/withData';
 
 class MyApp extends App {
   // getInitialProps: next.js lifecycle method
-  static async getInitiaProps({ Component, ctx }) {
+  static async getInitialProps({ Component, ctx }) {
     let pageProps = {};
     if (Component.getInitiaProps) {
       pageProps = await Component.getInitialProps(ctx);
@@ -20,7 +20,7 @@ class MyApp extends App {
 
     return (
       <Container>
-        <ApolloProvider client={this.props.apollo}>
+        <ApolloProvider client={apollo}>
           <Page>
             <Component {...pageProps} />
           </Page>
