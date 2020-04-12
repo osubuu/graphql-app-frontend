@@ -29,14 +29,17 @@ class TakeMyMoney extends Component {
   // get token to then pass it to backend to actually charge the card
   // (i.e token here is sort of like a meal ticket)
   onToken = async (res, createOrder) => {
-    console.log(res);
+    NProgress.start();
     // manually call the mutation once we have the stripe token
-    await createOrder({
+    const order = await createOrder({
       variables: {
         token: res.id,
       },
-    }).catch(err => {
-      alert(err.message);
+    }).catch(err => { alert(err.message) });
+
+    Router.push({
+      pathname: '/order',
+      query: { id: order.data.createOrder.id },
     });
   }
 
@@ -52,7 +55,7 @@ class TakeMyMoney extends Component {
                 name="Sick Fits"
                 email={me.email}
                 token={res => this.onToken(res, createOrder)}
-                image={me.cart[0].item && me.cart[0].item.image}
+                image={me.cart.length && me.cart[0].item && me.cart[0].item.image}
                 amount={calcTotalPrice(me.cart)}
                 currency="USD"
                 stripeKey="pk_test_6yUD5q8liiWCZPF78ZQZe3Ie00ixD2vxhr"
