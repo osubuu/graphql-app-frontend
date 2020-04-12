@@ -3,10 +3,8 @@ import StripeCheckout from 'react-stripe-checkout';
 import { Mutation } from 'react-apollo';
 import Router from 'next/router';
 import NProgress from 'nprogress';
-import PropTypes from 'prop-types';
 import gql from 'graphql-tag';
 import calcTotalPrice from '../lib/calcTotalPrice';
-import ErrorMessage from './ErrorMessage';
 import User, { CURRENT_USER_QUERY } from './User';
 
 const CREATE_ORDER_MUTATION = gql`
@@ -35,7 +33,7 @@ class TakeMyMoney extends Component {
       variables: {
         token: res.id,
       },
-    }).catch(err => { alert(err.message) });
+    }).catch(err => { alert(err.message); });
 
     Router.push({
       pathname: '/order',
@@ -47,9 +45,12 @@ class TakeMyMoney extends Component {
     return (
       <User>
         {({ data: { me } }) => (
-          <Mutation mutation={CREATE_ORDER_MUTATION} refetchQueries={[{
-            query: CURRENT_USER_QUERY,
-          }]}>
+          <Mutation
+            mutation={CREATE_ORDER_MUTATION}
+            refetchQueries={[{
+              query: CURRENT_USER_QUERY,
+            }]}
+          >
             {createOrder => (
               <StripeCheckout
                 name="Sick Fits"
@@ -59,7 +60,8 @@ class TakeMyMoney extends Component {
                 amount={calcTotalPrice(me.cart)}
                 currency="USD"
                 stripeKey="pk_test_6yUD5q8liiWCZPF78ZQZe3Ie00ixD2vxhr"
-                description={`Order of ${totalItems(me.cart)} items`}>
+                description={`Order of ${totalItems(me.cart)} items`}
+              >
                 <p>{this.props.children}</p>
               </StripeCheckout>
             )}

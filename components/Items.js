@@ -1,11 +1,10 @@
-import React, { Component } from 'react';
 import { Query } from 'react-apollo';
 import gql from 'graphql-tag';
 import styled from 'styled-components';
 
 import Pagination from './Pagination';
 import Item from './Item';
-import { perPage } from '../config'
+import { perPage } from '../config';
 
 // best practice to put queries in CAPS
 export const ALL_ITEMS_QUERY = gql`
@@ -33,28 +32,27 @@ const ItemsList = styled.div`
   margin: 0 auto;
 `;
 
-class Items extends Component {
-  render() {
-    return (
-      <Center>
-        <Pagination page={this.props.page} />
-        <Query
-          query={ALL_ITEMS_QUERY}
-          variables={{
-            skip: this.props.page * perPage - perPage,
-          }}>
-          {({ data, error, loading }) => {
-            if (loading) return <p>Loading...</p>;
-            if (error) return <p>Error: {error.message}</p>;
-            return <ItemsList>
-              {data.items.map(item => <Item item={item} key={item.id} />)}
-            </ItemsList>
-          }}
-        </Query>
-        <Pagination page={this.props.page} />
-      </Center>
-    );
-  }
-}
+const Items = props => (
+  <Center>
+    <Pagination page={props.page} />
+    <Query
+      query={ALL_ITEMS_QUERY}
+      variables={{
+        skip: props.page * perPage - perPage,
+      }}
+    >
+      {({ data, error, loading }) => {
+        if (loading) return <p>Loading...</p>;
+        if (error) return <p>Error: {error.message}</p>;
+        return (
+          <ItemsList>
+            {data.items.map(item => <Item item={item} key={item.id} />)}
+          </ItemsList>
+        );
+      }}
+    </Query>
+    <Pagination page={props.page} />
+  </Center>
+);
 
 export default Items;

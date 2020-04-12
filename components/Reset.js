@@ -18,10 +18,6 @@ const RESET_MUTATION = gql`
 `;
 
 class Reset extends Component {
-  static propTypes = {
-    resetToken: PropTypes.string.isRequired,
-  }
-
   state = {
     password: '',
     confirmPassword: '',
@@ -41,17 +37,21 @@ class Reset extends Component {
           confirmPassword: this.state.confirmPassword,
         }}
         refetchQueries={[
-          { query: CURRENT_USER_QUERY }
-        ]} >
-        {(reset, { error, loading }) => {
-          return <Form method="post" onSubmit={async (e) => {
-            e.preventDefault();
-            await reset();
-            this.setState({
-              password: '',
-              confirmPassword: ''
-            });
-          }} >
+          { query: CURRENT_USER_QUERY },
+        ]}
+      >
+        {(reset, { error, loading }) => (
+          <Form
+            method="post"
+            onSubmit={async e => {
+              e.preventDefault();
+              await reset();
+              this.setState({
+                password: '',
+                confirmPassword: '',
+              });
+            }}
+          >
             <fieldset disabled={loading} aria-busy={loading}>
               <h2>Reset Your Password</h2>
               <ErrorMessage error={error} />
@@ -62,7 +62,8 @@ class Reset extends Component {
                   name="password"
                   placeholder="password"
                   value={this.state.password}
-                  onChange={this.saveToState} />
+                  onChange={this.saveToState}
+                />
               </label>
               <label htmlFor="confirmPassword">
                 Confirm Your Password
@@ -71,15 +72,20 @@ class Reset extends Component {
                   name="confirmPassword"
                   placeholder="confirmPassword"
                   value={this.state.confirmPassword}
-                  onChange={this.saveToState} />
+                  onChange={this.saveToState}
+                />
               </label>
               <button type="submit">Reset Your Password!</button>
             </fieldset>
           </Form>
-        }}
+        )}
       </Mutation>
     );
   }
 }
+
+Reset.propTypes = {
+  resetToken: PropTypes.string.isRequired,
+};
 
 export default Reset;

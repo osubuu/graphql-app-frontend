@@ -2,10 +2,9 @@ import React, { Component } from 'react';
 import { Mutation } from 'react-apollo';
 import gql from 'graphql-tag';
 
-import Form from './styles/Form';
-import formatMoney from '../lib/formatMoney';
-import ErrorMessage from './ErrorMessage';
 import Router from 'next/router';
+import Form from './styles/Form';
+import ErrorMessage from './ErrorMessage';
 
 // recall: these mutations and queries were defined in schema.grapql yoga file in the back-end
 export const CREATE_ITEM_MUTATION = gql`
@@ -33,21 +32,21 @@ class CreateItem extends Component {
     title: '',
     description: '',
     image: '',
-    largeImage: '',
+    // largeImage: '',
     price: 0,
   }
 
-  handleChange = (e) => {
+  handleChange = e => {
     const { name, type, value } = e.target;
     const val = type === 'number' && value ? parseFloat(value) : value;
-    this.setState({ [name]: val })
+    this.setState({ [name]: val });
   }
 
   uploadFile = async e => {
     const { files } = e.target;
     const data = new FormData();
     data.append('file', files[0]);
-    data.append('upload_preset', 'graphql-app')
+    data.append('upload_preset', 'graphql-app');
 
     const res = await fetch('https://api.cloudinary.com/v1_1/df7nqbjav/image/upload/', {
       method: 'POST',
@@ -57,7 +56,7 @@ class CreateItem extends Component {
     const file = await res.json();
     this.setState({
       image: file.secure_url,
-      largeImage: file.eager[0].secure_url
+      // largeImage: file.eager[0].secure_url,
     });
   }
 
@@ -65,19 +64,21 @@ class CreateItem extends Component {
     return (
       <Mutation
         mutation={CREATE_ITEM_MUTATION}
-        variables={this.state}>
-        {(createItem, { loading, error, called, data }) => (
+        variables={this.state}
+      >
+        {(createItem, { loading, error }) => (
           <Form onSubmit={async e => {
             e.preventDefault();
             const res = await createItem(); // sends the mutation request
             Router.push({
               pathname: '/item',
-              query: { id: res.data.createItem.id }
+              query: { id: res.data.createItem.id },
             });
-          }}>
+          }}
+          >
             <ErrorMessage error={error} />
             <fieldset disabled={loading} aria-busy={loading}>
-              <label htmlFor='file'>
+              <label htmlFor="file">
                 Image
                 <input
                   type="file"
@@ -85,14 +86,18 @@ class CreateItem extends Component {
                   name="file"
                   required
                   placeholder="Upload an image"
-                  onChange={this.uploadFile} />
-                {this.state.image && <img
+                  onChange={this.uploadFile}
+                />
+                {this.state.image && (
+                <img
                   width="200"
                   src={this.state.image}
-                  alt="Upload Preview" />}
+                  alt="Upload Preview"
+                />
+                )}
               </label>
 
-              <label htmlFor='title'>
+              <label htmlFor="title">
                 Title
                 <input
                   type="text"
@@ -101,10 +106,11 @@ class CreateItem extends Component {
                   required
                   placeholder="Title"
                   value={this.state.title}
-                  onChange={this.handleChange} />
+                  onChange={this.handleChange}
+                />
               </label>
 
-              <label htmlFor='price'>
+              <label htmlFor="price">
                 Price
                 <input
                   type="number"
@@ -113,10 +119,11 @@ class CreateItem extends Component {
                   required
                   placeholder="Price"
                   value={this.state.price}
-                  onChange={this.handleChange} />
+                  onChange={this.handleChange}
+                />
               </label>
 
-              <label htmlFor='description'>
+              <label htmlFor="description">
                 Description
                 <input
                   id="description"
@@ -124,14 +131,15 @@ class CreateItem extends Component {
                   required
                   placeholder="Enter a description"
                   value={this.state.description}
-                  onChange={this.handleChange} />
+                  onChange={this.handleChange}
+                />
               </label>
               <button type="submit">Submit</button>
             </fieldset>
           </Form>
         )}
       </Mutation>
-    )
+    );
   }
 }
 

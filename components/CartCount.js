@@ -52,11 +52,16 @@ const CartCount = ({ count }) => (
         className="count"
         classNames="count"
         key={count}
-        timeout={{ enter: 400, exit: 400 }}>
+        timeout={{ enter: 400, exit: 400 }}
+      >
         <Dot>{count}</Dot>
       </CSSTransition>
     </TransitionGroup>
   </AnimationStyles>
 );
+
+CartCount.propTypes = {
+  count: PropTypes.number.isRequired,
+};
 
 export default CartCount;

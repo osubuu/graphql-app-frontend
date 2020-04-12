@@ -35,8 +35,9 @@ const Pagination = props => (
             prefetch
             href={{
               pathname: 'items',
-              query: { page: page - 1 }
-            }}>
+              query: { page: page - 1 },
+            }}
+          >
             <a className="prev" aria-disabled={page <= 1}>⬅ Prev</a>
           </Link>
           <p>Page {page} of {pages}</p>
@@ -45,14 +46,15 @@ const Pagination = props => (
             prefetch
             href={{
               pathname: 'items',
-              query: { page: page + 1 }
-            }}>
+              query: { page: page + 1 },
+            }}
+          >
             <a className="prev" aria-disabled={page >= pages}>Next ➡</a>
           </Link>
         </PaginationStyles>
-      )
+      );
     }}
-  </Query >
+  </Query>
 );
 
 export default Pagination;

@@ -25,10 +25,6 @@ const BigButton = styled.button`
 `;
 
 class RemoveFromCart extends Component {
-  static propTypes = {
-    id: PropTypes.string.isRequired,
-  }
-
   // this gets called as soon as we get a response back from the server
   // after a mutation has been performed
   update = (cache, payload) => {
@@ -47,21 +43,24 @@ class RemoveFromCart extends Component {
         mutation={REMOVE_FROM_CART_MUTATION}
         variables={{ id: this.props.id }}
         update={this.update}
-        // run a function preemptively ASSUMING the mutation would be a success, this is for optimal UX
+        // run a function preemptively ASSUMING the mutation would be a success
+        // this is for optimal UX
         optimisticResponse={{
           __typename: 'Mutation',
           removeFromCart: {
             __typename: 'CartItem',
             id: this.props.id,
           },
-        }}>
-        {(removeFromCart, { loading, error }) => (
+        }}
+      >
+        {(removeFromCart, { loading }) => (
           <BigButton
             title="Delete Item"
             disabled={loading}
             onClick={() => {
               removeFromCart().catch(err => alert(err.message));
-            }}>
+            }}
+          >
             &times;
           </BigButton>
         )}
@@ -69,5 +68,9 @@ class RemoveFromCart extends Component {
     );
   }
 }
+
+RemoveFromCart.propTypes = {
+  id: PropTypes.string.isRequired,
+};
 
 export default RemoveFromCart;

@@ -26,13 +26,17 @@ class RequestReset extends Component {
     return (
       <Mutation
         mutation={REQUEST_RESET_MUTATION}
-        variables={this.state} >
-        {(reset, { error, loading, called }) => {
-          return <Form method="post" onSubmit={async (e) => {
-            e.preventDefault();
-            await reset();
-            this.setState({ email: '' });
-          }} >
+        variables={this.state}
+      >
+        {(reset, { error, loading, called }) => (
+          <Form
+            method="post"
+            onSubmit={async e => {
+              e.preventDefault();
+              await reset();
+              this.setState({ email: '' });
+            }}
+          >
             <fieldset disabled={loading} aria-busy={loading}>
               <h2>Request a password reset</h2>
               <ErrorMessage error={error} />
@@ -44,12 +48,13 @@ class RequestReset extends Component {
                   name="email"
                   placeholder="email"
                   value={this.state.email}
-                  onChange={this.saveToState} />
+                  onChange={this.saveToState}
+                />
               </label>
               <button type="submit">Request Reset!</button>
             </fieldset>
           </Form>
-        }}
+        )}
       </Mutation>
     );
   }

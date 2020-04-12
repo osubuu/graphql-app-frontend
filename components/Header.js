@@ -6,6 +6,8 @@ import NProgress from 'nprogress';
 import Cart from './Cart';
 import Search from './Search';
 
+import Nav from './Nav';
+
 // Router events to listen for to display NProgress feedback to user
 Router.onRouteChangeStart = () => {
   NProgress.start();
@@ -16,8 +18,6 @@ Router.onRouteChangeComplete = () => {
 Router.onRouteChangeError = () => {
   NProgress.done();
 };
-
-import Nav from './Nav';
 
 const Logo = styled.h1`
   font-size: 4rem;

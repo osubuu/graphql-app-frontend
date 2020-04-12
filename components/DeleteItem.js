@@ -18,7 +18,7 @@ class DeleteItem extends Component {
     // 1. Read the cache for the items we want
     const data = cache.readQuery({ query: ALL_ITEMS_QUERY });
     // 2. Filter the deleted item out of the page
-    data.items = data.items.filter(item => item.id !== payload.data.deleteItem.id)
+    data.items = data.items.filter(item => item.id !== payload.data.deleteItem.id);
     // 3. Put the items back
     cache.writeQuery({ query: ALL_ITEMS_QUERY, data });
   }
@@ -28,17 +28,22 @@ class DeleteItem extends Component {
       <Mutation
         mutation={DELETE_ITEM_MUTATION}
         variables={{ id: this.props.id }}
-        update={this.update}>
-        {(deleteItem, { error }) => {
-          return <button onClick={() => {
-            if (confirm('Are you sure you want to delete this item?')) {
-              deleteItem().catch(err => {
-                alert(err.message);
-              });
-            }
-          }}>{this.props.children}</button>
-        }}
-      </Mutation >
+        update={this.update}
+      >
+        {deleteItem => (
+          <button
+            type="button"
+            onClick={() => {
+              if (confirm('Are you sure you want to delete this item?')) {
+                deleteItem().catch(err => {
+                  alert(err.message);
+                });
+              }
+            }}
+          >{this.props.children}
+          </button>
+        )}
+      </Mutation>
     );
   }
 }

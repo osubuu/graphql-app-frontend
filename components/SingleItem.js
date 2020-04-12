@@ -1,4 +1,3 @@
-import React, { Component } from 'react';
 import { Query } from 'react-apollo';
 import gql from 'graphql-tag';
 import styled from 'styled-components';
@@ -36,31 +35,30 @@ const SINGLE_ITEM_QUERY = gql`
   }
 `;
 
-class SingleItem extends Component {
-  render() {
-    return (
-      <Query
-        query={SINGLE_ITEM_QUERY}
-        variables={{ id: this.props.id }}>
-        {({ error, loading, data }) => {
-          if (error) return <ErrorMessage error={error} />;
-          if (loading) return <p>Loading...</p>;
-          if (!data.item) return <p>No Item Found for {this.props.id}</p>;
-          const { item } = data;
-          return <SingleItemStyles>
-            <Head>
-              <title>Sick Fits | {item.title}</title>
-            </Head>
-            <img src={item.largeImage} alt={item.title} />
-            <div className="details">
-              <h2>Viewing {item.title}</h2>
-              <p>{item.description}</p>
-            </div>
-          </SingleItemStyles>
-        }}
-      </Query>
-    );
-  }
-}
+const SingleItem = props => (
+  <Query
+    query={SINGLE_ITEM_QUERY}
+    variables={{ id: props.id }}
+  >
+    {({ error, loading, data }) => {
+      if (error) return <ErrorMessage error={error} />;
+      if (loading) return <p>Loading...</p>;
+      if (!data.item) return <p>No Item Found for {props.id}</p>;
+      const { item } = data;
+      return (
+        <SingleItemStyles>
+          <Head>
+            <title>Sick Fits | {item.title}</title>
+          </Head>
+          <img src={item.largeImage} alt={item.title} />
+          <div className="details">
+            <h2>Viewing {item.title}</h2>
+            <p>{item.description}</p>
+          </div>
+        </SingleItemStyles>
+      );
+    }}
+  </Query>
+);
 
 export default SingleItem;

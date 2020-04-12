@@ -3,9 +3,7 @@ import { Query, Mutation } from 'react-apollo';
 import gql from 'graphql-tag';
 
 import Form from './styles/Form';
-import formatMoney from '../lib/formatMoney';
 import ErrorMessage from './ErrorMessage';
-import Router from 'next/router';
 
 const SINGLE_ITEM_QUERY = gql`
   query SINGLE_ITEM_QUERY($id: ID!) {
@@ -42,19 +40,19 @@ export const UPDATE_ITEM_MUTATION = gql`
 class UpdateItem extends Component {
   state = {}
 
-  handleChange = (e) => {
+  handleChange = e => {
     const { name, type, value } = e.target;
     const val = type === 'number' ? parseFloat(value) : value;
-    this.setState({ [name]: val })
+    this.setState({ [name]: val });
   }
 
   updateItem = async (e, updateItemMutation) => {
     e.preventDefault();
-    const res = await updateItemMutation({
+    await updateItemMutation({
       variables: {
         id: this.props.id,
         ...this.state,
-      }
+      },
     });
   };
 
@@ -62,19 +60,21 @@ class UpdateItem extends Component {
     return (
       <Query
         query={SINGLE_ITEM_QUERY}
-        variables={{ id: this.props.id }}>
+        variables={{ id: this.props.id }}
+      >
         {({ data, loading }) => {
           if (loading) return <p>Loading...</p>;
-          if (!data.item) return <p>No data found for ID {this.props.id}</p>
+          if (!data.item) return <p>No data found for ID {this.props.id}</p>;
           return (
             <Mutation
               mutation={UPDATE_ITEM_MUTATION}
-              variables={this.state}>
-              {(updateItem, { loading, error }) => (
-                <Form onSubmit={e => { this.updateItem(e, updateItem) }}>
+              variables={this.state}
+            >
+              {(updateItem, { loading: updateItemLoading, error }) => (
+                <Form onSubmit={e => { this.updateItem(e, updateItem); }}>
                   <ErrorMessage error={error} />
-                  <fieldset disabled={loading} aria-busy={loading}>
-                    <label htmlFor='title'>
+                  <fieldset disabled={updateItemLoading} aria-busy={updateItemLoading}>
+                    <label htmlFor="title">
                       Title
                       <input
                         type="text"
@@ -83,10 +83,11 @@ class UpdateItem extends Component {
                         required
                         placeholder="Title"
                         defaultValue={data.item.title}
-                        onChange={this.handleChange} />
+                        onChange={this.handleChange}
+                      />
                     </label>
 
-                    <label htmlFor='price'>
+                    <label htmlFor="price">
                       Price
                       <input
                         type="number"
@@ -95,10 +96,11 @@ class UpdateItem extends Component {
                         required
                         placeholder="Price"
                         defaultValue={data.item.price}
-                        onChange={this.handleChange} />
+                        onChange={this.handleChange}
+                      />
                     </label>
 
-                    <label htmlFor='description'>
+                    <label htmlFor="description">
                       Description
                       <input
                         id="description"
@@ -106,9 +108,10 @@ class UpdateItem extends Component {
                         required
                         placeholder="Enter a description"
                         defaultValue={data.item.description}
-                        onChange={this.handleChange} />
+                        onChange={this.handleChange}
+                      />
                     </label>
-                    <button type="submit">Sav{loading ? 'ing' : 'e'} Changes</button>
+                    <button type="submit">Sav{updateItemLoading ? 'ing' : 'e'} Changes</button>
                   </fieldset>
                 </Form>
               )}
@@ -116,7 +119,7 @@ class UpdateItem extends Component {
           );
         }}
       </Query>
-    )
+    );
   }
 }
 

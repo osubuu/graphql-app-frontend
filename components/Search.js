@@ -28,7 +28,7 @@ const routeToItem = item => {
       id: item.id,
     },
   });
-}
+};
 
 class Search extends Component {
   state = {
@@ -56,9 +56,12 @@ class Search extends Component {
       <SearchStyles>
         <Downshift
           onChange={routeToItem}
-          itemToString={item => item === null ? '' : item.title}>
+          itemToString={item => (item === null ? '' : item.title)}
+        >
           {/* these are called render props */}
-          {({ getInputProps, getItemProps, isOpen, inputValue, highlightedIndex }) => (
+          {({
+            getInputProps, getItemProps, isOpen, inputValue, highlightedIndex,
+          }) => (
             <div>
               <ApolloConsumer>
                 {client => (
@@ -72,25 +75,28 @@ class Search extends Component {
                         e.persist();
                         this.onChange(e, client);
                       },
-                    })} />
+                    })}
+                  />
                 )}
               </ApolloConsumer>
-              {/* isOpen automatically detects if we click outside of search input or click something like ESC */}
+              {/* isOpen automatically detects if we click outside of search input
+               or click something like ESC */}
               {isOpen && (
-                <DropDown>
-                  {this.state.items.map((item, index) => (
-                    <DropDownItem
-                      {...getItemProps({ item })}
-                      key={item.id}
-                      highlighted={index === highlightedIndex}>
-                      <img width="50" src={item.image} alt={item.title} />
-                      {item.title}
-                    </DropDownItem>
-                  ))}
-                  {!this.state.items.length && !this.state.loading && (
-                    <DropDownItem>Nothing found for {inputValue}</DropDownItem>
-                  )}
-                </DropDown>
+              <DropDown>
+                {this.state.items.map((item, index) => (
+                  <DropDownItem
+                    {...getItemProps({ item })}
+                    key={item.id}
+                    highlighted={index === highlightedIndex}
+                  >
+                    <img width="50" src={item.image} alt={item.title} />
+                    {item.title}
+                  </DropDownItem>
+                ))}
+                {!this.state.items.length && !this.state.loading && (
+                <DropDownItem>Nothing found for {inputValue}</DropDownItem>
+                )}
+              </DropDown>
               )}
             </div>
           )}

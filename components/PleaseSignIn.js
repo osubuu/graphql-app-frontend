@@ -12,8 +12,8 @@ const PleaseSignIn = props => (
             <p>Please sign in before continuing</p>
             <Signin />
           </div>
-        )
-      };
+        );
+      }
       return props.children;
     }}
   </Query>
