@@ -3,6 +3,7 @@
 
 # testing
 /coverage
+mocking.test.js
 
 # production
 /build
