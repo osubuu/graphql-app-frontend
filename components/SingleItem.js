@@ -62,3 +62,4 @@ const SingleItem = props => (
 );
 
 export default SingleItem;
+export { SINGLE_ITEM_QUERY };
