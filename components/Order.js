@@ -7,7 +7,7 @@ import formatMoney from '../lib/formatMoney';
 import ErrorMessage from './ErrorMessage';
 import OrderStyles from './styles/OrderStyles';
 
-const SINGLE_ORDER_QUERY = gql`
+export const SINGLE_ORDER_QUERY = gql`
   query SINGLE_ORDER_QUERY($id: ID!) {
     order(id: $id) {
       id
@@ -36,7 +36,7 @@ const Order = props => (
       if (loading) return <p>Loading...</p>;
       const { order } = data;
       return (
-        <OrderStyles>
+        <OrderStyles data-test="order">
           <Head>
             <title>Sick Fits - Order {order.id}</title>
           </Head>
