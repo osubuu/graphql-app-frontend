@@ -12,13 +12,13 @@ import SickButton from './styles/SickButton';
 import calcTotalPrice from '../lib/calcTotalPrice';
 import formatMoney from '../lib/formatMoney';
 
-const LOCAL_STATE_QUERY = gql`
+export const LOCAL_STATE_QUERY = gql`
   query {
     cartOpen @client # this means, just grab from Apollo on FE, not BE
   }
 `;
 
-const TOGGLE_CART_MUTATION = gql`
+export const TOGGLE_CART_MUTATION = gql`
   mutation {
     toggleCart @client
   }
@@ -66,4 +66,3 @@ const Cart = () => (
 );
 
 export default Cart;
-export { LOCAL_STATE_QUERY, TOGGLE_CART_MUTATION };
