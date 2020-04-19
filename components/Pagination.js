@@ -40,7 +40,8 @@ const Pagination = props => (
           >
             <a className="prev" aria-disabled={page <= 1}>⬅ Prev</a>
           </Link>
-          <p>Page {page} of
+          <p>
+            <span>Page {page} of </span>
             <span className="totalPages">{pages}</span>
           </p>
           <p>{count} Items Total</p>
