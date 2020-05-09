@@ -38,7 +38,7 @@ const Order = props => (
       return (
         <OrderStyles data-test="order">
           <Head>
-            <title>Sick Fits - Order {order.id}</title>
+            <title>Hoodify - Order {order.id}</title>
           </Head>
           <p>
             <span>Order ID:</span>

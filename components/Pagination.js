@@ -29,7 +29,7 @@ const Pagination = props => (
       return (
         <PaginationStyles data-test="pagination">
           <Head>
-            <title>Sick Fits! Page {page} of {pages}</title>
+            <title>Hoodify - Page {page} of {pages}</title>
           </Head>
           <Link
             prefetch
