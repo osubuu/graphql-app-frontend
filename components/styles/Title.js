@@ -14,6 +14,7 @@ const Title = styled.h3`
     text-align: center;
     color: white;
     padding: 0 1rem;
+    border-radius: 1.5rem;
   }
 `;
 

@@ -31,6 +31,7 @@ const Logo = styled.h1`
     color: white;
     text-transform: uppercase;
     text-decoration: none;
+    border-radius: 1.5rem;
   }
   @media (max-width: 1300px) {
     margin: 0;
