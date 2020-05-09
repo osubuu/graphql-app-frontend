@@ -43,18 +43,23 @@ class RequestReset extends Component {
               <div>
                 <h2>Request a password reset</h2>
                 <ErrorMessage error={error} />
-                {!error && !loading && called && <p>Success! Check your email for a reset link!</p>}
-                <label htmlFor="email">
-                  Email
-                  <input
-                    type="email"
-                    name="email"
-                    placeholder="email"
-                    value={this.state.email}
-                    onChange={this.saveToState}
-                  />
-                </label>
-                <button type="submit">Request reset</button>
+                {!error && !loading && called
+                  ? <p>Success! Check your email for a reset link!</p>
+                  : (
+                    <>
+                      <label htmlFor="email">
+                        Email
+                        <input
+                          type="email"
+                          name="email"
+                          placeholder="email"
+                          value={this.state.email}
+                          onChange={this.saveToState}
+                        />
+                      </label>
+                      <button type="submit">Request reset</button>
+                    </>
+                  )}
               </div>
             </Fieldset>
           </Form>
