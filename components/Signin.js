@@ -1,4 +1,5 @@
 import React, { Component } from 'react';
+import styled from 'styled-components';
 import { Mutation } from 'react-apollo';
 import gql from 'graphql-tag';
 
@@ -12,6 +13,28 @@ const SIGNIN_MUTATION = gql`
       id
       email
       name
+    }
+  }
+`;
+
+export const Fieldset = styled.fieldset`
+  height: 100%;
+  width: 100%;
+
+  & > div{
+    height: calc(100% - 10px);
+    width: 100%;
+    display: flex;
+    flex-direction: column;
+
+    > label:last-of-type {
+      margin-bottom: 2rem;
+    }
+
+    > button {
+      cursor: pointer;
+      align-self: flex-start;
+      margin-top: auto;
     }
   }
 `;
@@ -47,31 +70,33 @@ class Signin extends Component {
               });
             }}
           >
-            <fieldset disabled={loading} aria-busy={loading}>
-              <h2>Sign into your account</h2>
-              <ErrorMessage error={error} />
-              <label htmlFor="email">
-                Email
-                <input
-                  type="email"
-                  name="email"
-                  placeholder="email"
-                  value={this.state.email}
-                  onChange={this.saveToState}
-                />
-              </label>
-              <label htmlFor="password">
-                Password
-                <input
-                  type="password"
-                  name="password"
-                  placeholder="password"
-                  value={this.state.password}
-                  onChange={this.saveToState}
-                />
-              </label>
-              <button type="submit">Sign In!</button>
-            </fieldset>
+            <Fieldset disabled={loading} aria-busy={loading}>
+              <div>
+                <h2>Sign into your account</h2>
+                <ErrorMessage error={error} />
+                <label htmlFor="email">
+                  Email
+                  <input
+                    type="email"
+                    name="email"
+                    placeholder="email"
+                    value={this.state.email}
+                    onChange={this.saveToState}
+                  />
+                </label>
+                <label htmlFor="password">
+                  Password
+                  <input
+                    type="password"
+                    name="password"
+                    placeholder="password"
+                    value={this.state.password}
+                    onChange={this.saveToState}
+                  />
+                </label>
+                <button type="submit">Sign in</button>
+              </div>
+            </Fieldset>
           </Form>
         )}
       </Mutation>
