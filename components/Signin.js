@@ -2,6 +2,7 @@ import React, { Component } from 'react';
 import styled from 'styled-components';
 import { Mutation } from 'react-apollo';
 import gql from 'graphql-tag';
+import Router from 'next/router';
 
 import Form from './styles/Form';
 import ErrorMessage from './ErrorMessage';
@@ -67,6 +68,8 @@ class Signin extends Component {
               this.setState({
                 email: '',
                 password: '',
+              }, () => {
+                Router.push({ pathname: '/' });
               });
             }}
           >

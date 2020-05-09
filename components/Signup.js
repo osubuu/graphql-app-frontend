@@ -1,6 +1,7 @@
 import React, { Component } from 'react';
 import { Mutation } from 'react-apollo';
 import gql from 'graphql-tag';
+import Router from 'next/router';
 
 import Form from './styles/Form';
 import ErrorMessage from './ErrorMessage';
@@ -47,6 +48,8 @@ class Signup extends Component {
                 email: '',
                 name: '',
                 password: '',
+              }, () => {
+                Router.push({ pathname: '/' });
               });
             }}
           >
