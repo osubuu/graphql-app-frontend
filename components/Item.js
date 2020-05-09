@@ -1,5 +1,7 @@
+import styled from 'styled-components';
 import PropTypes from 'prop-types';
 import Link from 'next/link';
+import Router from 'next/router';
 
 import Title from './styles/Title';
 import ItemStyles from './styles/ItemStyles';
@@ -13,7 +15,16 @@ const Item = props => {
   const { item } = props;
   return (
     <ItemStyles>
-      {item.image && <img src={item.image} alt={item.title} />}
+      {item.image && (
+      <img
+        src={item.image}
+        alt={item.title}
+        onClick={() => Router.push({
+          pathname: '/item',
+          query: { id: item.id },
+        })}
+      />
+      )}
       <Title>
         <Link href={{
           pathname: '/item',
