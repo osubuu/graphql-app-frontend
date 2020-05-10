@@ -1,6 +1,7 @@
 import React, { Component } from 'react';
 import { Mutation } from 'react-apollo';
 import gql from 'graphql-tag';
+import Router from 'next/router';
 
 import { ALL_ITEMS_QUERY } from './Items';
 
@@ -33,10 +34,13 @@ class DeleteItem extends Component {
         {deleteItem => (
           <button
             type="button"
-            onClick={() => {
+            onClick={async () => {
               if (confirm('Are you sure you want to delete this item?')) {
-                deleteItem().catch(err => {
+                await deleteItem().catch(err => {
                   alert(err.message);
+                });
+                Router.push({
+                  pathname: '/',
                 });
               }
             }}
