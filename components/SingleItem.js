@@ -50,9 +50,10 @@ const SingleItemStyles = styled.div`
       text-align: center;
       background: white;
       border: 0;
-      font-size: 1rem;
+      font-size: 1.4rem;
       padding: 1rem;
       cursor: pointer;
+      padding: 2rem;
 
       &:hover {
         color: ${props => props.theme.teal};
