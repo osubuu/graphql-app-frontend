@@ -1,6 +1,7 @@
 import React, { Component } from 'react';
 import { Query, Mutation } from 'react-apollo';
 import gql from 'graphql-tag';
+import Router from 'next/router';
 
 import Form from './styles/Form';
 import ErrorMessage from './ErrorMessage';
@@ -53,6 +54,10 @@ class UpdateItem extends Component {
         id: this.props.id,
         ...this.state,
       },
+    });
+    Router.push({
+      pathname: '/item',
+      query: { id: this.props.id },
     });
   };
 
