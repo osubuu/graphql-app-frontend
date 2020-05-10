@@ -23,6 +23,7 @@ const SingleItemStyles = styled.div`
 
   .image-container{
     width: 30rem;
+    height: 30rem;
     margin-top: 1rem;
 
     img {
