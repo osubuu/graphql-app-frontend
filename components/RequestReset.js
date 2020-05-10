@@ -1,10 +1,12 @@
 import React, { Component } from 'react';
 import { Mutation } from 'react-apollo';
 import gql from 'graphql-tag';
+import { adopt } from 'react-adopt';
 
 import Form from './styles/Form';
 import ErrorMessage from './ErrorMessage';
 import { Fieldset } from './Signin';
+import User from './User';
 
 export const REQUEST_RESET_MUTATION = gql`
   mutation REQUEST_RESET_MUTATION($email: String!) {
@@ -13,6 +15,15 @@ export const REQUEST_RESET_MUTATION = gql`
     }
   }
 `;
+
+const Composed = adopt({
+  user: ({ render }) => <User>{render}</User>,
+  requestReset: ({ render }) => (
+    <Mutation mutation={REQUEST_RESET_MUTATION}>
+      {(mutation, result) => render({ mutation, result })}
+    </Mutation>
+  ),
+});
 
 class RequestReset extends Component {
   state = {
@@ -25,46 +36,53 @@ class RequestReset extends Component {
 
   render() {
     return (
-      <Mutation
-        mutation={REQUEST_RESET_MUTATION}
-        variables={this.state}
-      >
-        {(reset, { error, loading, called }) => (
-          <Form
-            data-test="form"
-            method="post"
-            onSubmit={async e => {
-              e.preventDefault();
-              await reset();
-              this.setState({ email: '' });
-            }}
-          >
-            <Fieldset disabled={loading} aria-busy={loading}>
-              <div>
-                <h2>Request a password reset</h2>
-                <ErrorMessage error={error} />
-                {!error && !loading && called
-                  ? <p>Success! Check your email for a reset link!</p>
-                  : (
-                    <>
-                      <label htmlFor="email">
-                        Email
-                        <input
-                          type="email"
-                          name="email"
-                          placeholder="email"
-                          value={this.state.email}
-                          onChange={this.saveToState}
-                        />
-                      </label>
-                      <button type="submit">Request reset</button>
-                    </>
+      <Composed>
+        {({ user, requestReset }) => {
+          const { me } = user.data;
+          const { mutation, result } = requestReset;
+          const resetLinkSent = !result.error && !result.loading && result.called;
+          return (
+            <Form
+              data-test="form"
+              method="post"
+              onSubmit={async e => {
+                e.preventDefault();
+                const email = me ? me.email : this.state.email;
+                await mutation({ variables: { email } });
+                if (this.state.email) {
+                  this.setState({ email: '' });
+                }
+              }}
+            >
+              <Fieldset disabled={result.loading} aria-busy={result.loading}>
+                <div>
+                  <h2>Request a password reset</h2>
+                  <ErrorMessage error={result.error} />
+                  {me && <p>Email: {me.email}</p>}
+                  {resetLinkSent && <p>Success! Check your email for a reset link!</p>}
+                  {!resetLinkSent && (
+                  <>
+                    {!me && (
+                    <label htmlFor="email">
+                      Email
+                      <input
+                        type="email"
+                        name="email"
+                        placeholder="email"
+                        value={this.state.email}
+                        onChange={this.saveToState}
+                      />
+                    </label>
+                    )}
+                    <button type="submit">Request reset</button>
+                  </>
                   )}
-              </div>
-            </Fieldset>
-          </Form>
-        )}
-      </Mutation>
+                </div>
+              </Fieldset>
+            </Form>
+          );
+        }}
+      </Composed>
     );
   }
 }
