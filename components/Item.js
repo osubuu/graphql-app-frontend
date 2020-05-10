@@ -13,6 +13,7 @@ import AddToCart from './AddToCart';
 
 const Item = props => {
   const { item } = props;
+  console.log(props);
   return (
     <ItemStyles>
       {item.image && (
@@ -43,7 +44,7 @@ const Item = props => {
           query: { id: item.id },
         }}
         >
-          <a>Edit <span role="img" aria-label="pencil">✏️</span>✏</a>
+          <a>Edit</a>
         </Link>
         <AddToCart id={item.id} />
         <DeleteItem id={item.id}>Delete This Item</DeleteItem>

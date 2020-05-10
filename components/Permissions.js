@@ -50,7 +50,7 @@ const Permissions = () => (
                 <th>Name</th>
                 <th>Email</th>
                 {possiblePermissions.map(permission => <th key={permission}>{permission}</th>)}
-                <th><span role="img" aria-label="finger pointing down">👇</span></th>
+                <th>Confirm</th>
               </tr>
             </thead>
             <tbody>

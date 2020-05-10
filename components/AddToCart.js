@@ -23,7 +23,7 @@ const AddToCart = props => {
       }]}
     >
       {(addToCart, { loading }) => (
-        <button type="button" disabled={loading} onClick={addToCart}>Add{loading && 'ing'} To Cart 🛒</button>
+        <button type="button" disabled={loading} onClick={addToCart}>Add{loading && 'ing'} To Cart</button>
       )}
     </Mutation>
   );
