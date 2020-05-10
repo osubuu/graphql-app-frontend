@@ -43,12 +43,21 @@ const StyledHeader = styled.header`
   .bar {
     border-bottom: 10px solid ${props => props.theme.black};
     display: grid;
-    grid-template-columns: auto 1fr;
+    grid-template-columns: auto 1fr 1fr;
     justify-content: space-between;
-    align-items: stretch;
+
+    > span {
+      align-self: center;
+      margin: 0.5rem 1rem 0.5rem 2rem;
+    }
+
     @media (max-width: 1300px) {
       grid-template-columns: 1fr;
       justify-content: center;
+      > span {
+        text-align: center;
+        margin: 0.5rem auto 1rem auto;
+      }
     }
   }
   .sub-bar {
@@ -66,6 +75,7 @@ const Header = () => (
           <a>Hoodify</a>
         </Link>
       </Logo>
+      <span>The #1 online hood to sell your hoods</span>
       <Nav />
     </div>
     <div className="sub-bar">
