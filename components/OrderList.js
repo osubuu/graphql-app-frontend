@@ -36,9 +36,7 @@ const OrderList = () => (
     {({ data: { orders }, loading, error }) => {
       if (error) return <ErrorMessage error={error} />;
       if (loading) return <p>Loading...</p>;
-      console.log(orders);
       return (
-        // <h1>hi</h1>
         <div>
           <h2>You have {orders.length} orders</h2>
           <OrderUl>
