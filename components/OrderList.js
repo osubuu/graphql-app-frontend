@@ -1,5 +1,5 @@
 import { Query } from 'react-apollo';
-import { formatDistance } from 'date-fns';
+import { formatDistance, parseISO } from 'date-fns';
 import Link from 'next/link';
 import styled from 'styled-components';
 import gql from 'graphql-tag';
@@ -36,7 +36,9 @@ const OrderList = () => (
     {({ data: { orders }, loading, error }) => {
       if (error) return <ErrorMessage error={error} />;
       if (loading) return <p>Loading...</p>;
+      console.log(orders);
       return (
+        // <h1>hi</h1>
         <div>
           <h2>You have {orders.length} orders</h2>
           <OrderUl>
@@ -51,7 +53,7 @@ const OrderList = () => (
                     <div className="order-meta">
                       <p>{order.items.reduce((total, item) => total + item.quantity, 0)} Items</p>
                       <p>{order.items.length} Product</p>
-                      <p>{formatDistance(order.createdAt, new Date(), {
+                      <p>{formatDistance(parseISO(order.createdAt), new Date(), {
                         addSuffix: true,
                       })}
                       </p>
