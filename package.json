@@ -1,5 +1,5 @@
 {
-  "name": "sick-fits-frontend",
+  "name": "hoodify-frontend",
   "version": "1.0.0",
   "description": "Hoodify! An example ecommerce app using React, GraphQL, Next and Apollo",
   "main": "index.js",
