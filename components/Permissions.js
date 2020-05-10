@@ -42,22 +42,24 @@ const Permissions = () => (
     {({ data, error }) => (
       <div>
         <ErrorMessage error={error} />
-        <div>
-          <h2>Manage Permissions</h2>
-          <Table>
-            <thead>
-              <tr>
-                <th>Name</th>
-                <th>Email</th>
-                {possiblePermissions.map(permission => <th key={permission}>{permission}</th>)}
-                <th>Confirm</th>
-              </tr>
-            </thead>
-            <tbody>
-              {data.users.map(user => <UserPermissions key={user.id} user={user} />)}
-            </tbody>
-          </Table>
-        </div>
+        {!error && data.users && (
+          <div>
+            <h2>Manage Permissions</h2>
+            <Table>
+              <thead>
+                <tr>
+                  <th>Name</th>
+                  <th>Email</th>
+                  {possiblePermissions.map(permission => <th key={permission}>{permission}</th>)}
+                  <th>Confirm</th>
+                </tr>
+              </thead>
+              <tbody>
+                {data.users.map(user => <UserPermissions key={user.id} user={user} />)}
+              </tbody>
+            </Table>
+          </div>
+        )}
       </div>
     )}
   </Query>
@@ -128,12 +130,13 @@ class UserPermissions extends Component {
 }
 
 Permissions.propTypes = {
+  // eslint-disable-next-line react/require-default-props
   user: PropTypes.shape({
     name: PropTypes.string,
     email: PropTypes.string,
     id: PropTypes.string,
     permissions: PropTypes.array,
-  }).isRequired,
+  }),
 };
 
 export default Permissions;
