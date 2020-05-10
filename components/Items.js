@@ -44,6 +44,7 @@ const Items = props => {
     items: ({ render }) => (
       <Query
         query={ALL_ITEMS_QUERY}
+        fetchPolicy="network-only"
         variables={{
           skip: props.page * perPage - perPage,
         }}

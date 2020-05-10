@@ -1,10 +1,11 @@
 import React, { Component } from 'react';
 import { Mutation } from 'react-apollo';
 import gql from 'graphql-tag';
-
 import Router from 'next/router';
+
 import Form from './styles/Form';
 import ErrorMessage from './ErrorMessage';
+import { PAGINATION_QUERY } from './Pagination';
 
 // recall: these mutations and queries were defined in schema.grapql yoga file in the back-end
 export const CREATE_ITEM_MUTATION = gql`
@@ -64,6 +65,9 @@ class CreateItem extends Component {
     return (
       <Mutation
         mutation={CREATE_ITEM_MUTATION}
+        refetchQueries={[
+          { query: PAGINATION_QUERY },
+        ]}
         variables={this.state}
       >
         {(createItem, { loading, error }) => (
