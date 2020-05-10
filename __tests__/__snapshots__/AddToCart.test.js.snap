@@ -7,6 +7,6 @@ exports[`<AddToCart/> renders and matches snapshot 1`] = `
   type="button"
 >
   Add
-   To Cart 🛒
+   To Cart
 </button>
 `;

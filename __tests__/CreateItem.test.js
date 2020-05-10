@@ -5,6 +5,7 @@ import Router from 'next/router';
 import { MockedProvider } from 'react-apollo/test-utils';
 
 import CreateItem, { CREATE_ITEM_MUTATION } from '../components/CreateItem';
+import { PAGINATION_QUERY } from '../components/Pagination';
 import { fakeItem } from '../lib/testUtils';
 
 const dogImage = 'https://dog.com/dog.jpg';
@@ -75,6 +76,7 @@ describe('<CreateItem/>', () => {
           title: item.title,
           description: item.description,
           image: '',
+          largeImage: '',
           price: item.price,
         },
       },
@@ -83,6 +85,20 @@ describe('<CreateItem/>', () => {
           createItem: {
             ...fakeItem(),
             __typeName: 'Item',
+          },
+        },
+      },
+    },
+    {
+      request: { query: PAGINATION_QUERY },
+      result: {
+        data: {
+          itemsConnection: {
+            __typename: 'aggregate',
+            aggregate: {
+              __typename: 'count',
+              count: length,
+            },
           },
         },
       },

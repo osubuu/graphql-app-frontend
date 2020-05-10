@@ -4,8 +4,17 @@ import wait from 'waait';
 import { MockedProvider } from 'react-apollo/test-utils';
 
 import RequestReset, { REQUEST_RESET_MUTATION } from '../components/RequestReset';
+import { CURRENT_USER_QUERY } from '../components/User';
 
 const mocks = [
+  {
+    request: { query: CURRENT_USER_QUERY },
+    result: {
+      data: {
+        me: null,
+      },
+    },
+  },
   {
     request: {
       query: REQUEST_RESET_MUTATION,

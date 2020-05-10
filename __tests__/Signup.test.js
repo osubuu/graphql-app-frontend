@@ -3,6 +3,7 @@ import toJSON from 'enzyme-to-json';
 import wait from 'waait';
 import { MockedProvider } from 'react-apollo/test-utils';
 import { ApolloConsumer } from 'react-apollo';
+import Router from 'next/router';
 
 import Signup, { SIGNUP_MUTATION } from '../components/Signup';
 import { CURRENT_USER_QUERY } from '../components/User';
@@ -72,10 +73,14 @@ describe('<Signup/>', () => {
     type(wrapper, 'email', me.email);
     type(wrapper, 'password', 'password1234');
     wrapper.update();
+    Router.router = { push: jest.fn() };
     wrapper.find('form').simulate('submit');
     await wait(); // recall: this is used to prevent weird race conditions
     // query the user out of the apollo client
     const user = await apolloClient.query({ query: CURRENT_USER_QUERY });
     expect(user.data.me).toMatchObject(me);
+    expect(Router.router.push).toHaveBeenCalledWith({
+      pathname: '/',
+    });
   });
 });

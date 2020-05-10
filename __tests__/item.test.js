@@ -9,6 +9,13 @@ const fakeItem = {
   description: 'This item is really cool!',
   image: 'dog.jpg',
   largeImage: 'largedog.jpg',
+  user: {
+    id: 'def456',
+  },
+};
+
+const fakeMe = {
+  id: fakeItem.user.id,
 };
 
 describe('<Item/>', () => {
@@ -31,8 +38,8 @@ describe('<Item/>', () => {
     expect(wrapper.find('Title a').text()).toBe(fakeItem.title);
   });
 
-  it('renders out the buttons properly', () => {
-    const wrapper = shallow(<ItemComponent item={fakeItem} />);
+  it('renders out the buttons properly', async () => {
+    const wrapper = shallow(<ItemComponent item={fakeItem} me={fakeMe} />);
     const buttonList = wrapper.find('.buttonList');
     expect(buttonList.children()).toHaveLength(3);
     expect((buttonList.find('Link')).exists()).toBe(true);
