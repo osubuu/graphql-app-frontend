@@ -12,8 +12,7 @@ import DeleteItem from './DeleteItem';
 import AddToCart from './AddToCart';
 
 const Item = props => {
-  const { item } = props;
-  console.log(props);
+  const { item, me } = props;
   return (
     <ItemStyles>
       {item.image && (
@@ -39,6 +38,7 @@ const Item = props => {
       <p>{item.description}</p>
 
       <div className="buttonList">
+        {me && (
         <Link href={{
           pathname: 'update',
           query: { id: item.id },
@@ -46,8 +46,9 @@ const Item = props => {
         >
           <a>Edit</a>
         </Link>
+        )}
         <AddToCart id={item.id} />
-        <DeleteItem id={item.id}>Delete This Item</DeleteItem>
+        {me && <DeleteItem id={item.id}>Delete This Item</DeleteItem>}
       </div>
     </ItemStyles>
   );

@@ -1,8 +1,10 @@
 import { Query } from 'react-apollo';
 import gql from 'graphql-tag';
 import styled from 'styled-components';
+import { adopt } from 'react-adopt';
 
 import Pagination from './Pagination';
+import User from './User';
 import Item from './Item';
 import { perPage } from '../config';
 
@@ -32,27 +34,40 @@ const ItemsList = styled.div`
   margin: 0 auto;
 `;
 
-const Items = props => (
-  <Center>
-    <Pagination page={props.page} />
-    <Query
-      query={ALL_ITEMS_QUERY}
-      variables={{
-        skip: props.page * perPage - perPage,
-      }}
-    >
-      {({ data, error, loading }) => {
-        if (loading) return <p>Loading...</p>;
-        if (error) return <p>Error: {error.message}</p>;
+
+const Items = props => {
+  const Composed = adopt({
+    user: ({ render }) => <User>{render}</User>,
+    items: ({ render }) => (
+      <Query
+        query={ALL_ITEMS_QUERY}
+        variables={{
+          skip: props.page * perPage - perPage,
+        }}
+      >{render}
+      </Query>
+    ),
+  });
+
+  return (
+    <Composed>
+      {({ user, items }) => {
+        // const { me } = user.data;
+        // if (!me) return null;
+        if (items.loading) return <p>Loading...</p>;
+        if (items.error) return <p>Error: {items.error.message}</p>;
         return (
-          <ItemsList>
-            {data.items.map(item => <Item item={item} key={item.id} />)}
-          </ItemsList>
+          <Center>
+            <Pagination page={props.page} />
+            <ItemsList>
+              {items.data.items.map(item => <Item item={item} key={item.id} me={user.data.me} />)}
+            </ItemsList>
+            <Pagination page={props.page} />
+          </Center>
         );
       }}
-    </Query>
-    <Pagination page={props.page} />
-  </Center>
-);
+    </Composed>
+  );
+};
 
 export default Items;
