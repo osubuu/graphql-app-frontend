@@ -18,6 +18,9 @@ export const ALL_ITEMS_QUERY = gql`
       description
       image
       largeImage
+      user {
+        id
+      }
     }
   }
 `;
@@ -52,8 +55,6 @@ const Items = props => {
   return (
     <Composed>
       {({ user, items }) => {
-        // const { me } = user.data;
-        // if (!me) return null;
         if (items.loading) return <p>Loading...</p>;
         if (items.error) return <p>Error: {items.error.message}</p>;
         return (

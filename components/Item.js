@@ -11,6 +11,7 @@ import AddToCart from './AddToCart';
 
 const Item = props => {
   const { item, me } = props;
+  const canEditAndDelete = me && me.id === item.user.id;
   return (
     <ItemStyles>
       <Link href={{
@@ -35,7 +36,7 @@ const Item = props => {
       <p>{item.description}</p>
 
       <div className="buttonList">
-        {me && (
+        {canEditAndDelete && (
         <Link href={{
           pathname: 'update',
           query: { id: item.id },
@@ -45,7 +46,7 @@ const Item = props => {
         </Link>
         )}
         <AddToCart id={item.id} />
-        {me && <DeleteItem id={item.id}>Delete This Item</DeleteItem>}
+        {canEditAndDelete && <DeleteItem id={item.id}>Delete This Item</DeleteItem>}
       </div>
     </ItemStyles>
   );
