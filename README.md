@@ -8,7 +8,6 @@ A simple light-hearted ecommerce web application where users can buy and sell ho
 ## Live Link
 [View Hoodify live!](https://hoodify-next-prod.herokuapp.com/)
 
-
 ## Features (frontend)
 * Built with Next.js, GraphQL, Apollo Client, React
 * Shopping cart & credit card checkout (Stripe)
@@ -16,6 +15,9 @@ A simple light-hearted ecommerce web application where users can buy and sell ho
 * Various UI/UX features: pagination, search bar autocomplete, progress bar loader, animations
 * Deployed on Heroku
 * Testing with Jest and Enzyme
+
+## Link to backend
+[View Hoodify's backend repository](https://github.com/osubuu/hoodify-backend)
 
 ## NOTE
 Certain functionalities are still linked to development services:
